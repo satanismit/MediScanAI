@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+langchain
+langchain_community
+langchainhub
+langchain-openai
+langchain-google-genai
+chromadb
+sentence-transformers
+pydantic 
+pytesseract
+Pillow 
+langchain-huggingface 
