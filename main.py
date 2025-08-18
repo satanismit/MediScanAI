@@ -84,7 +84,7 @@ If user ask outside the report but related to report then search it and answer i
     return prompt_context
 
 # Load Google API key directly (user provided)
-GOOGLE_API_KEY = "AIzaSyACjxCx0Eizrnc9WVVKpOrqIQEBrBUAONw"
+GOOGLE_API_KEY = ""
 
 llm = ChatGoogleGenerativeAI(model="models/gemini-2.5-pro", google_api_key=GOOGLE_API_KEY)
 
