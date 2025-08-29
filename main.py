@@ -147,13 +147,17 @@ def format_docs(docs):
 	"""
 	return prompt_context
 
-# LLM factory that reads the API key at request time
-def get_llm():
-	# Use env var if set; otherwise fall back to the provided default key
-	api_key = os.environ.get("GOOGLE_API_KEY") or DEFAULT_GOOGLE_API_KEY
-	if not api_key:
-		return None
-	return ChatGoogleGenerativeAI(model="models/gemini-2.5-pro", api_key=api_key)
+# Load Google API key directly (user provided)
+GOOGLE_API_KEY = "AIzaSyACjxCx0Eizrnc9WVVKpOrqIQEBrBUAONw"
+
+llm = ChatGoogleGenerativeAI(model="models/gemini-2.5-pro", google_api_key=GOOGLE_API_KEY)
+
+rag_chain = (
+    { 'context': retriever | format_docs, 'question': RunnablePassthrough() }
+    | prompt
+    | llm
+    | StrOutputParser()
+)
 
 # --- FastAPI App ---
 app = FastAPI()
@@ -284,51 +288,4 @@ async def ask(request: AskRequest):
 
 @app.get("/")
 def root():
-	return {"message": "RAG Medical Assistant API is running."}
-
-@app.get("/tesseract-status")
-def tesseract_status():
-	"""Get detailed Tesseract OCR status and configuration"""
-	ready, status = _tesseract_ready()
-	return {
-		"tesseract_available": TESSERACT_AVAILABLE,
-		"tesseract_path": TESSERACT_PATH,
-		"tesseract_ready": ready,
-		"status_message": status,
-		"platform": platform.system(),
-		"python_version": platform.python_version(),
-		"installation_help": "Download from: https://github.com/UB-Mannheim/tesseract/wiki" if platform.system() == "Windows" else "Install Tesseract OCR for your system"
-	}
-
-@app.get("/test-ocr")
-def test_ocr():
-	"""Test OCR functionality with a sample image if available"""
-	ready, status = _tesseract_ready()
-	if not ready:
-		return {"error": f"Tesseract not ready: {status}"}
-	
-	# Check if we have a test image
-	test_image_path = "image.png"
-	if not os.path.exists(test_image_path):
-		return {"error": "No test image found. Please place an 'image.png' file in the project directory."}
-	
-	try:
-		image = Image.open(test_image_path)
-		text = pytesseract.image_to_string(image)
-		
-		return {
-			"success": True,
-			"test_image": test_image_path,
-			"image_size": image.size,
-			"image_mode": image.mode,
-			"extracted_text": text[:500] + "..." if len(text) > 500 else text,
-			"text_length": len(text),
-			"tesseract_path": TESSERACT_PATH
-		}
-	except Exception as e:
-		return {
-			"error": f"OCR test failed: {str(e)}",
-			"test_image": test_image_path,
-			"exception_type": type(e).__name__,
-			"tesseract_path": TESSERACT_PATH
-		}
+    return {"message": "RAG Medical Assistant API is running."} 
