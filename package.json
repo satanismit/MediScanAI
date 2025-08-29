@@ -1,0 +1,19 @@
+{
+  "name": "MediScanAI",
+  "version": "1.0.0",
+  "description": "A project for medical scan AI analysis.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "medical",
+    "AI",
+    "scan",
+    "analysis"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}
