@@ -1,5 +1,5 @@
 {
-  "name": "MediScanAI",
+  "name": "MedAssist",
   "version": "1.0.0",
   "description": "A project for medical scan AI analysis.",
   "main": "index.js",

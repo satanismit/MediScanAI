@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="nav-inner">
-        <div className="nav-brand">MedAssist RAG</div>
+        <div className="nav-brand">MedAssist</div>
         <div className="nav-links">
           <NavLink to="/" end className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Home</NavLink>
           <NavLink to="/analyze" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Analyze</NavLink>

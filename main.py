@@ -257,9 +257,9 @@ async def upload_report(file: UploadFile = File(...)):
 @app.post("/ask", response_model=AskResponse)
 async def ask(request: AskRequest):
 	try:
-		llm = get_llm()
+		# Use the already defined llm variable
 		if llm is None:
-			return AskResponse(answer="", error="Missing GOOGLE_API_KEY. Set it in MediScanAI/.env or as an environment variable, then restart the server.")
+			return AskResponse(answer="", error="Missing GOOGLE_API_KEY. Set it in MedAssist/.env or as an environment variable, then restart the server.")
 
 		# If context is provided, use it as the document for RAG
 		if request.context:
